@@ -37,9 +37,9 @@
     var constructWatchTasks = function () {
         var tasks = [];
 
-        if (rtdConf.options.jshint && rtdConf.options.jshint.enabled) {
-            tasks.push('jshint:app');
-            tasks.push('jshint:test');
+        if (rtdConf.options.jslint && rtdConf.options.jslint.enabled) {
+            tasks.push('jslint:app');
+            tasks.push('jslint:test');
         }
 
         if (rtdConf.options.coffeelint && rtdConf.options.coffeelint.enabled) {
@@ -372,14 +372,18 @@
                     dest: RTD_BASE_PATH + '/lib/bin/'
                 }
             },
-            'jshint': {
+            'jslint': {
                 app: {
-                    options: rtdConf.options.jshint && rtdConf.options.jshint.appOptions ? rtdConf.options.jshint.appOptions : {},
-                    src: ['<%= basePath %>/app/**/*.js', '!<%= basePath %>/app/.meteor/**/*.js', '!<%= basePath %>/app/packages/**/*.js']
+                    options: rtdConf.options.jslint && rtdConf.options.jslint.appOptions ? rtdConf.options.jslint.appOptions : {},
+                    src: ['<%= basePath %>/app/**/*.js', '!<%= basePath %>/app/.meteor/**/*.js', '!<%= basePath %>/app/packages/**/*.js'],
+                    exclude: rtdConf.options.jslint && rtdConf.options.jslint.exclude ? rtdConf.options.jslint.exclude : [],
+                    directives: rtdConf.options.jslint && rtdConf.options.jslint.directives ? rtdConf.options.jslint.directives : {}
                 },
                 test: {
-                    options: rtdConf.options.jshint && rtdConf.options.jshint.testOptions ? rtdConf.options.jshint.testOptions : {},
-                    src: ['<%= basePath %>/test/**/*.js', '!' + RTD_BASE_PATH + '/**/*.js', '!<%= basePath %>/test/rtd.conf.js', '!<%= basePath %>/test/karma.conf.js']
+                    options: rtdConf.options.jslint && rtdConf.options.jslint.testOptions ? rtdConf.options.jslint.testOptions : {},
+                    src: ['<%= basePath %>/test/**/*.js', '!' + RTD_BASE_PATH + '/**/*.js', '!<%= basePath %>/test/rtd.conf.js', '!<%= basePath %>/test/karma.conf.js'],
+                    exclude: rtdConf.options.jslint && rtdConf.options.jslint.exclude ? rtdConf.options.jslint.exclude : [],
+                    directives: rtdConf.options.jslint && rtdConf.options.jslint.directives ? rtdConf.options.jslint.directives : {}
                 }
             },
             'coffeelint': {
@@ -397,7 +401,7 @@
         grunt.loadNpmTasks('grunt-bg-shell');
         grunt.loadNpmTasks('grunt-contrib-watch');
         grunt.loadNpmTasks('grunt-zip');
-        grunt.loadNpmTasks('grunt-contrib-jshint');
+        grunt.loadNpmTasks('grunt-jslint');
         grunt.loadNpmTasks('grunt-coffeelint');
         grunt.loadNpmTasks('grunt-cucumber');
 

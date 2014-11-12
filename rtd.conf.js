@@ -32,11 +32,15 @@ module.exports = {
             },
             exclude: '**/do_not_cover/**'
         },
-        jshint: {
+        jslint: {
             enabled: true,
             // if you want to customize jslint options for app and/or test code, you can do that here
-            appOptions: {},
-            testOptions: {}
+            appOptions: {
+                failOnError: false
+            },
+            testOptions: {
+                failOnError: false
+            }
         },
 	    coffeelint: {
 		    enabled: true,
