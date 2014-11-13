@@ -1,4 +1,4 @@
-## This is a modified version of the original RTD developed by xolv.io
+## This is a modified version of [the original RTD](https://github.com/xolvio/rtd) developed by xolv.io
 
 # RTD - The Test Runner for Meteor
 
