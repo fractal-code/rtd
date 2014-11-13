@@ -1,3 +1,5 @@
+## This is a modified version of the original RTD developed by xolv.io
+
 # RTD - The Test Runner for Meteor
 
 An end-to-end testing solution for Meteor, combining Karma, Selenium Webdriver and Istanbul.
