@@ -2,7 +2,7 @@
   "name": "rtd",
   "preferGlobal": true,
   "analyze": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Sam Hatoum <sam@xolvio.com>",
   "description": "The Meteor test runner",
   "contributors": [
