@@ -15,24 +15,7 @@
         rtdConf = require(fs.existsSync(CUSTOM_RTD_CONFIG_FILE) ? CUSTOM_RTD_CONFIG_FILE : DEFAULT_RTD_CONFIG_FILE),
         karmaPath = path.resolve(require.resolve('karma'), '../../bin/karma'),
         istanbulPath = path.resolve(require.resolve('istanbul'), '../lib/cli.js'),
-        jasminePath = path.resolve(require.resolve('jasmine-node'), '../../../bin/jasmine-node')
-
-    var constructStartupTasks = function () {
-        var tasks = [];
-        tasks.push('bgShell:killAll');
-        tasks.push('downloadAndOrStartSelenium');
-        tasks.push('bgShell:startKarma');
-        tasks.push('bgShell:synchronizeMirrorApp');
-        if (rtdConf.options.coverage.enabled) {
-            tasks.push('bgShell:instrumentCode');
-        }
-        tasks.push('bgShell:startMirrorApp');
-        tasks.push('bgShell:startApp');
-        tasks.push('pollServices');
-        tasks.push('outputPorts');
-        tasks.push('watch');
-        return tasks;
-    };
+        jasminePath = path.resolve(require.resolve('jasmine-node'), '../../../bin/jasmine-node');
 
     var constructWatchTasks = function () {
         var tasks = [];
@@ -64,6 +47,26 @@
             tasks.push('bgShell:killReports');
             tasks.push('bgShell:runCoverageCheck');
         }
+        return tasks;
+    };
+
+    var constructStartupTasks = function () {
+        var tasks = [];
+        tasks.push('bgShell:killAll');
+        tasks.push('downloadAndOrStartSelenium');
+        tasks.push('bgShell:startKarma');
+        tasks.push('bgShell:synchronizeMirrorApp');
+        if (rtdConf.options.coverage.enabled) {
+            tasks.push('bgShell:instrumentCode');
+        }
+        tasks.push('bgShell:startMirrorApp');
+        tasks.push('bgShell:startApp');
+        tasks.push('pollServices');
+        tasks.push('outputPorts');
+        if (rtdConf.options.runTestsOnStart) {
+            tasks.push.apply(tasks, constructWatchTasks());
+        }
+        tasks.push('watch');
         return tasks;
     };
 
@@ -485,11 +488,6 @@
             var i = setInterval(function () {
                 if (Object.keys(readyPorts).length === 4) {
                     clearInterval(i);
-                    if (rtdConf.options.runTestsOnStart) {
-                        setTimeout(function () {
-                            fs.utimes(PROJECT_BASE_PATH + '/app/.meteor/packages', new Date(), new Date());
-                        }, 500);
-                    }
                     done();
                 }
             }, 500);
